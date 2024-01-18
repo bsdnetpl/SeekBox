@@ -77,7 +77,6 @@ namespace SeekBox.Services
                 return true;
             }
             throw new Exception($"No Package on this {statusBoxDto.boxGuid} in DB");
-
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SeekBox.DTOs
+﻿using FluentValidation;
+
+namespace SeekBox.DTOs
 {
     public class PackageDto
     {
@@ -14,5 +16,11 @@
         public double dimensionsZ { get; set; }
         public int ClientId { get; set; }
         public int shippingPointId { get; set; }
+    }
+    public class ValidationPackageDto : AbstractValidator<PackageDto>
+    {
+        public ValidationPackageDto() { 
+            
+        }
     }
 }

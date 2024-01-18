@@ -1,5 +1,7 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SeekBox.DB;
+using SeekBox.DTOs;
 using SeekBox.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBoxService, BoxService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IValidator<ClientDto>, ValidationClientDto>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

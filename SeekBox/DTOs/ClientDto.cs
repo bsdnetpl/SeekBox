@@ -1,4 +1,6 @@
-﻿namespace SeekBox.DTOs
+﻿using FluentValidation;
+
+namespace SeekBox.DTOs
 {
     public class ClientDto
     {
@@ -11,5 +13,14 @@
         public string Country { get; set; }
         public string Phone { get; set; }
         public string email { get; set; }
+    }
+    public class ValidationClientDto :AbstractValidator<ClientDto>
+    {
+        public ValidationClientDto() 
+        {
+            RuleFor(x => x.email).NotEmpty().EmailAddress().WithMessage("Wrong address email !");
+            RuleFor(x => x.Phone).NotEmpty().WithMessage("You must add the phone number correctly");
+
+        }
     }
 }
