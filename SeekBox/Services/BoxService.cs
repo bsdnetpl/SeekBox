@@ -4,8 +4,8 @@ using SeekBox.Models;
 
 namespace SeekBox.Services
 {
-    
-    public class BoxService
+
+    public class BoxService : IBoxService
     {
         private readonly MsConnect _msConnect;
 
@@ -14,10 +14,24 @@ namespace SeekBox.Services
             _msConnect = msConnect;
         }
 
-        public Package GetPackage(Guid Number)
+        public async Task<object> GetPackage(Guid Number)
         {
-            var Box = _msConnect.packages.Where( f => f.packageNumber == Number).FirstOrDefault();
-            return Box;
+
+            var box = (
+             from ep in _msConnect.packages
+             join p in _msConnect.statusBox on ep.packageNumber equals p.boxGuid
+             where p.boxGuid == Number
+             select new
+             {
+                 ep.packageNumber,
+                 ep.dateOfPosting,
+                 ep.shippingPointId,
+                 ep.destinationCountry,
+                 p.EventName,
+                 p.DateTime,
+                 p.postalUnitId
+             });
+            return box;
         }
         public bool AddPackage(PackageDto packageDto)
         {
@@ -37,17 +51,33 @@ namespace SeekBox.Services
             _msConnect.SaveChanges();
             return true;
         }
-        public bool RemoveBox(Guid packageNumber)
+        public bool RemovePackage(Guid packageNumber)
         {
-            
+
             var result = _msConnect.Remove(packageNumber);
-            if(result is null)
+            if (result is null)
             {
                 return false;
             }
             _msConnect.SaveChanges(false);
             return true;
         }
+        public bool AddEventBox(StatusBoxDto statusBoxDto)
+        {
+            var isBox = _msConnect.packages.Where(f => f.packageNumber == statusBoxDto.boxGuid).FirstOrDefault();
+            if (isBox is not null)
+            {
+                StatusBox statusBox = new();
+                statusBox.boxGuid = statusBoxDto.boxGuid;
+                statusBox.EventName = statusBoxDto.EventName;
+                statusBox.DateTime = DateTime.Now;
+                statusBox.postalUnitId = statusBoxDto.postalUnitId;
+                _msConnect.statusBox.Add(statusBox);
+                _msConnect.SaveChanges();
+                return true;
+            }
+            throw new Exception($"No Package on this {statusBoxDto.boxGuid} in DB");
 
+        }
     }
 }
