@@ -18,6 +18,7 @@ namespace SeekBox.DB
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Package>().HasIndex(i => i.packageNumber).IsUnique();
             modelBuilder.Entity<StatusBox>().HasIndex(i => i.boxGuid).IsUnique();
+            modelBuilder.Entity<Client>().HasIndex(i => i.email).IsUnique();
         }
     }
 }
