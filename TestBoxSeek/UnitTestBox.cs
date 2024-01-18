@@ -16,7 +16,7 @@ namespace TestBoxSeek
         {
             // Arrange
             var myServiceMock = new Mock<IBoxService>();
-            var statusBoxDto = new StatusBoxDto(); // Wprowadź odpowiednie dane testowe
+            var statusBoxDto = new StatusBoxDto(); 
 
             myServiceMock.Setup(x => x.AddEventBox(statusBoxDto))
                          .Returns(true);
@@ -35,7 +35,7 @@ namespace TestBoxSeek
         {
             // Arrange
             var myServiceMock = new Mock<IBoxService>();
-            var packageDto = new PackageDto(); // Wprowadź odpowiednie dane testowe
+            var packageDto = new PackageDto(); 
 
             myServiceMock.Setup(x => x.AddPackage(packageDto))
                          .Returns(true);
@@ -54,10 +54,10 @@ namespace TestBoxSeek
         {
             // Arrange
             var myServiceMock = new Mock<IBoxService>();
-            var packageNumber = Guid.NewGuid(); // Wprowadź odpowiednie dane testowe
+            var packageNumber = Guid.NewGuid(); 
 
             myServiceMock.Setup(x => x.GetPackage(packageNumber))
-                         .ReturnsAsync(new object()); // Wprowadź odpowiednie dane testowe
+                         .ReturnsAsync(new object()); 
 
             var myService = myServiceMock.Object;
 
@@ -73,7 +73,7 @@ namespace TestBoxSeek
         {
             // Arrange
             var myServiceMock = new Mock<IBoxService>();
-            var packageNumber = Guid.NewGuid(); // Wprowadź odpowiednie dane testowe
+            var packageNumber = Guid.NewGuid(); 
 
             myServiceMock.Setup(x => x.RemovePackage(packageNumber))
                          .Returns(true);
